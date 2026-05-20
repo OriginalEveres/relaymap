@@ -1,0 +1,44 @@
+{
+  "name": "relaymap",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Relaymap — a richer alternative to bitnodes.io for the Bitcoin P2P network",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.0.0",
+  "pnpm": {
+    "onlyBuiltDependencies": ["@nestjs/core", "@prisma/client", "@prisma/engines", "esbuild", "prisma"]
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --project integration",
+    "test:coverage": "vitest run --coverage",
+    "db:generate": "pnpm --filter @relaymap/db prisma:generate",
+    "db:migrate": "pnpm --filter @relaymap/db prisma:migrate:dev",
+    "db:studio": "pnpm --filter @relaymap/db prisma:studio"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^11.1.0",
+    "@testcontainers/postgresql": "^11.1.0",
+    "@types/node": "^22.10.0",
+    "@vitest/coverage-v8": "^4.1.0",
+    "eslint": "^10.0.0",
+    "eslint-plugin-boundaries": "^6.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "prettier": "^3.4.0",
+    "tsx": "^4.19.0",
+    "turbo": "^2.3.0",
+    "typescript": "^6.0.0",
+    "typescript-eslint": "^8.19.0",
+    "vite-tsconfig-paths": "^5.1.0",
+    "vitest": "^4.1.0"
+  }
+}

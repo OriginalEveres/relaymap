@@ -1,0 +1,14 @@
+{
+  "extends": "./packages/tsconfig/base.json",
+  "include": [],
+  "references": [
+    { "path": "./packages/tsconfig" },
+    { "path": "./packages/domain-shared" },
+    { "path": "./packages/api-contracts" },
+    { "path": "./packages/db" },
+    { "path": "./packages/bitcoin-network" },
+    { "path": "./packages/crawling" },
+    { "path": "./apps/api" },
+    { "path": "./apps/crawler" }
+  ]
+}
