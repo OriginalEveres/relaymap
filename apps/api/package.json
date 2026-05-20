@@ -1,0 +1,33 @@
+{
+  "name": "@relaymap/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsx watch src/main.ts",
+    "start": "node --enable-source-maps dist/main.js",
+    "lint": "eslint src",
+    "typecheck": "tsc -b --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@relaymap/api-contracts": "workspace:*",
+    "@relaymap/bitcoin-network": "workspace:*",
+    "@relaymap/db": "workspace:*",
+    "@relaymap/domain-shared": "workspace:*",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-fastify": "^11.0.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@relaymap/tsconfig": "workspace:*",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^6.0.0"
+  }
+}
