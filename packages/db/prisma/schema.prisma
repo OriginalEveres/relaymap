@@ -1,0 +1,112 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated"
+  runtime      = "nodejs"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Node {
+  id              Int       @id @default(autoincrement())
+  ip              String    @db.Inet
+  port            Int       @db.SmallInt
+  firstSeenAt     DateTime  @default(now())
+  lastSeenAt      DateTime  @default(now())
+  lastReachableAt DateTime?
+  firstSource     ScanSource
+
+  // Denormalized "latest" — refreshed every scan, powers list filters
+  latestReachable         Boolean   @default(false)
+  latestUserAgent         String?
+  latestProtocolVersion   Int?
+  latestServicesRaw       BigInt?
+  latestStartHeight       Int?
+  latestRelay             Boolean?
+  latestFeeFilterSatPerKb BigInt?
+  latestLatencyMs         Float?
+  latestScannedAt         DateTime?
+
+  // Denormalized geo
+  countryCode   String?   @db.VarChar(2)
+  countryName   String?
+  city          String?
+  region        String?
+  latitude      Float?
+  longitude     Float?
+  asn           Int?
+  asOrg         String?
+  geoEnrichedAt DateTime?
+
+  scans NodeScan[]
+
+  @@unique([ip, port])
+  @@index([latestReachable, lastSeenAt])
+  @@index([countryCode])
+  @@index([asn])
+  @@index([latestUserAgent])
+}
+
+model NodeScan {
+  id                Int            @id @default(autoincrement())
+  nodeId            Int
+  node              Node           @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  crawlId           Int
+  crawl             Crawl          @relation(fields: [crawlId], references: [id], onDelete: Cascade)
+  scannedAt         DateTime       @default(now())
+  source            ScanSource
+  reachable         Boolean
+  latencyMs         Float?
+  protocolVersion   Int?
+  userAgent         String?
+  startHeight       Int?
+  servicesRaw       BigInt?
+  relay             Boolean?
+  feeFilterSatPerKb BigInt?
+  errorCode         ScanErrorCode?
+  errorMessage      String?
+
+  @@index([nodeId, scannedAt])
+  @@index([crawlId, reachable])
+  @@index([scannedAt])
+}
+
+model Crawl {
+  id              Int         @id @default(autoincrement())
+  startedAt       DateTime    @default(now())
+  finishedAt      DateTime?
+  status          CrawlStatus @default(RUNNING)
+  totalScanned    Int         @default(0)
+  totalDiscovered Int         @default(0)
+  reachableCount  Int         @default(0)
+  configJson      Json?
+  scans           NodeScan[]
+
+  @@index([startedAt])
+  @@index([status, startedAt])
+}
+
+enum ScanSource {
+  DNS
+  MANUAL
+  ADDR
+  RANDOM
+  BOOTSTRAP
+}
+
+enum ScanErrorCode {
+  TIMEOUT
+  CONNECTION_REFUSED
+  UNREACHABLE
+  HANDSHAKE_FAILED
+  UNKNOWN
+}
+
+enum CrawlStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+  ABORTED
+}
