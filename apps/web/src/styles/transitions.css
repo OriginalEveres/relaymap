@@ -1,0 +1,189 @@
+/* RelayMap — page transitions, card entrance, skeleton loading.
+   Built on the View Transitions API (native, no extra deps). Browsers without
+   support skip the cross-page animation and simply snap — that's fine.
+   Honors prefers-reduced-motion at the bottom. */
+
+/* ---------- View Transitions ----------------------------------------------- */
+
+@keyframes rm-vt-fade-out {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes rm-vt-rise-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+::view-transition-old(root) {
+	animation: 160ms cubic-bezier(0.4, 0, 0.2, 1) both rm-vt-fade-out;
+}
+
+::view-transition-new(root) {
+	animation: 240ms cubic-bezier(0.16, 1, 0.3, 1) both rm-vt-rise-in;
+}
+
+/* The persistent chrome (top header + status strip + footer) shouldn't slide
+   when the page below it changes — give it its own continuous view-transition
+   names so the browser cross-fades them in place instead. */
+.topbar {
+	view-transition-name: rm-topbar;
+}
+.status-strip {
+	view-transition-name: rm-status-strip;
+}
+.foot {
+	view-transition-name: rm-foot;
+}
+
+::view-transition-old(rm-topbar),
+::view-transition-new(rm-topbar),
+::view-transition-old(rm-status-strip),
+::view-transition-new(rm-status-strip),
+::view-transition-old(rm-foot),
+::view-transition-new(rm-foot) {
+	animation: none;
+}
+
+/* ---------- Card / stat entrance (runs on every page mount) ---------------- */
+
+@keyframes rm-stagger-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.stat-strip > .stat,
+.page > .grid > * {
+	animation: rm-stagger-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Stagger up to 12 cards by 40ms each — beyond that, snap in without delay. */
+.stat-strip > .stat:nth-child(1) { animation-delay: 0ms; }
+.stat-strip > .stat:nth-child(2) { animation-delay: 40ms; }
+.stat-strip > .stat:nth-child(3) { animation-delay: 80ms; }
+.stat-strip > .stat:nth-child(4) { animation-delay: 120ms; }
+
+.page > .grid > *:nth-child(1)  { animation-delay: 100ms; }
+.page > .grid > *:nth-child(2)  { animation-delay: 140ms; }
+.page > .grid > *:nth-child(3)  { animation-delay: 180ms; }
+.page > .grid > *:nth-child(4)  { animation-delay: 220ms; }
+.page > .grid > *:nth-child(5)  { animation-delay: 260ms; }
+.page > .grid > *:nth-child(6)  { animation-delay: 300ms; }
+.page > .grid > *:nth-child(7)  { animation-delay: 340ms; }
+.page > .grid > *:nth-child(8)  { animation-delay: 380ms; }
+.page > .grid > *:nth-child(9)  { animation-delay: 420ms; }
+.page > .grid > *:nth-child(10) { animation-delay: 460ms; }
+.page > .grid > *:nth-child(11) { animation-delay: 500ms; }
+.page > .grid > *:nth-child(12) { animation-delay: 540ms; }
+
+/* ---------- Subtle interactive smoothness ---------------------------------- */
+
+.btn,
+.topnav a,
+.gh-link,
+.theme-toggle button,
+.row-item,
+.card,
+.stat,
+.pill,
+.chip-group button {
+	transition:
+		background-color 140ms ease,
+		color 140ms ease,
+		border-color 140ms ease,
+		filter 140ms ease;
+}
+
+table.peers tbody tr {
+	transition: background-color 120ms ease;
+}
+
+/* ---------- Skeleton loading state ----------------------------------------- */
+
+@keyframes rm-skel-shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+.skel {
+	background: linear-gradient(
+		90deg,
+		var(--surface-sunk) 0%,
+		color-mix(in oklab, var(--surface) 70%, var(--surface-sunk) 30%) 50%,
+		var(--surface-sunk) 100%
+	);
+	background-size: 200% 100%;
+	animation: rm-skel-shimmer 1.6s linear infinite;
+	border-radius: var(--radius-sm);
+}
+
+.skel-line {
+	height: 12px;
+}
+.skel-line.lg {
+	height: 22px;
+}
+.skel-line.sm {
+	height: 10px;
+}
+.skel-card {
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 18px;
+	background: var(--surface);
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* ---------- Reduced motion: opt every animation out ------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root),
+	::view-transition-old(rm-topbar),
+	::view-transition-new(rm-topbar),
+	::view-transition-old(rm-status-strip),
+	::view-transition-new(rm-status-strip),
+	::view-transition-old(rm-foot),
+	::view-transition-new(rm-foot) {
+		animation: none !important;
+	}
+	.stat-strip > .stat,
+	.page > .grid > *,
+	.skel {
+		animation: none !important;
+	}
+	.btn,
+	.topnav a,
+	.gh-link,
+	.theme-toggle button,
+	.row-item,
+	.card,
+	.stat,
+	.pill,
+	.chip-group button,
+	table.peers tbody tr {
+		transition: none !important;
+	}
+}

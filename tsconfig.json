@@ -8,6 +8,8 @@
     { "path": "./packages/db" },
     { "path": "./packages/bitcoin-network" },
     { "path": "./packages/crawling" },
+    { "path": "./packages/ui" },
+    { "path": "./apps/web" },
     { "path": "./apps/api" },
     { "path": "./apps/crawler" }
   ]

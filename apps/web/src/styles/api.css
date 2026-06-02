@@ -1,0 +1,77 @@
+/* API "coming soon" hero — isolated to avoid parse issues */
+.api-soon {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 28px;
+}
+.api-hero {
+  max-width: 760px;
+  text-align: center;
+  margin: 0 auto;
+}
+.api-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 24px;
+}
+.api-huge {
+  font-size: clamp(72px, 14vw, 180px);
+  line-height: 0.92;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  margin: 0 0 28px;
+  color: var(--primary);
+}
+.api-sub {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 540px;
+  margin: 0 auto 32px;
+}
+.api-form {
+  display: flex;
+  gap: 8px;
+  max-width: 460px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
+}
+.api-form .input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.api-form .input:focus { box-shadow: none; }
+.api-form .btn { padding: 10px 18px; font-size: 13px; }
+.api-form-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  font-size: 14px;
+}
+.api-meta {
+  margin-top: 22px;
+  font-size: 12px;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.api-meta .sep { color: var(--text-faint); opacity: 0.5; }
+.api-meta a { color: var(--text-muted); }

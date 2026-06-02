@@ -1,0 +1,191 @@
+/* RelayMap v2 — top-nav layout overrides
+   Loaded AFTER styles.css to override .app grid + sidebar removal. */
+
+.app-v2 {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* ---- Top header ---- */
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.topbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 28px;
+  height: 60px;
+}
+.topbar .brand {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.topbar .brand-name {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.topnav {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  flex: 1;
+}
+.topnav a {
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.topnav a:hover {
+  color: var(--text);
+  background: var(--surface-sunk);
+  text-decoration: none;
+}
+.topnav a.active {
+  color: var(--primary);
+}
+.topnav a {
+  /* needed so the underline aligns with the topbar bottom border */
+  height: 60px;
+}
+.topnav a.active::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: -1px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px 2px 0 0;
+}
+.topnav .badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-left: 4px;
+  letter-spacing: 0.06em;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.topbar-right .theme-toggle {
+  width: auto;
+}
+.topbar-right .theme-toggle button {
+  padding: 5px 10px;
+  font-size: 11px;
+}
+.topbar-right .gh-link {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.topbar-right .gh-link:hover {
+  color: var(--text);
+  background: var(--surface-sunk);
+  text-decoration: none;
+}
+
+/* ---- Status strip beneath header ---- */
+.status-strip {
+  background: var(--surface-sunk);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  position: sticky;
+  top: 60px;
+  z-index: 19;
+}
+.status-strip-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 7px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.status-strip strong { color: var(--text); font-weight: 500; }
+.status-strip .sep { color: var(--text-faint); }
+.status-strip .right { margin-left: auto; display: flex; gap: 14px; align-items: center; }
+.status-strip .pulse {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ok);
+  animation: pulse 2s infinite;
+  color: var(--ok);
+}
+.status-strip .diff { display: inline-flex; gap: 6px; }
+.status-strip .plus { color: var(--ok); }
+.status-strip .minus { color: var(--bad); }
+
+/* ---- v2 main ---- */
+.app-v2 .main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.app-v2 .page {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* v2 footer is wider */
+.app-v2 .foot {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 22px 28px;
+}
+.app-v2 .foot-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Mobile collapse */
+@media (max-width: 900px) {
+  .topbar-inner { gap: 12px; padding: 0 16px; height: auto; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; }
+  .topnav { order: 3; width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .topnav a.active::after { display: none; }
+  .topnav a.active { background: var(--surface-sunk); }
+  .status-strip { top: 0; position: static; }
+  .status-strip-inner { padding: 7px 16px; flex-wrap: wrap; gap: 8px; }
+  .status-strip .right { margin-left: 0; width: 100%; }
+}
