@@ -9,7 +9,7 @@
     "dev": "tsx watch src/main.ts",
     "start": "node --enable-source-maps dist/main.js",
     "lint": "eslint src",
-    "typecheck": "tsc -b --noEmit",
+    "typecheck": "tsc -b",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {

@@ -16,7 +16,7 @@
     "build": "tsc -b",
     "dev": "tsc -b --watch",
     "lint": "eslint src",
-    "typecheck": "tsc -b --noEmit",
+    "typecheck": "tsc -b",
     "clean": "rm -rf dist .turbo src/generated",
     "db:generate": "prisma generate --schema=./prisma/schema.prisma",
     "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
