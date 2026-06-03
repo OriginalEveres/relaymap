@@ -13,12 +13,7 @@ import { CrawlScheduler } from "./scheduler/crawl.scheduler.js";
 		ScheduleModule.forRoot(),
 		CrawlerConfigModule,
 		DbModule.forRoot(),
-		BitcoinNetworkModule.forRoot({
-			maxmind: {
-				cityDbPath: process.env.MAXMIND_CITY_DB_PATH ?? "/data/geoip/GeoLite2-City.mmdb",
-				asnDbPath: process.env.MAXMIND_ASN_DB_PATH ?? "/data/geoip/GeoLite2-ASN.mmdb",
-			},
-		}),
+		BitcoinNetworkModule.forRoot(),
 		CrawlingModule,
 	],
 	providers: [CrawlScheduler],

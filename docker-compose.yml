@@ -16,6 +16,60 @@ services:
       timeout: 5s
       retries: 10
 
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: build
+    container_name: relaymap-migrate
+    environment:
+      DATABASE_URL: postgresql://relaymap:relaymap@postgres:5432/relaymap?schema=public
+    command: pnpm --filter @relaymap/db prisma:migrate:deploy
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: relaymap-api
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://relaymap:relaymap@postgres:5432/relaymap?schema=public
+      API_PORT: 3000
+      API_CORS_ORIGINS: "http://localhost:3001"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  crawler:
+    build:
+      context: .
+      dockerfile: apps/crawler/Dockerfile
+    container_name: relaymap-crawler
+    environment:
+      DATABASE_URL: postgresql://relaymap:relaymap@postgres:5432/relaymap?schema=public
+      CRAWL_CRON: "0 */6 * * *"
+      CRAWL_MAX_CONCURRENT: 500
+      CRAWL_MAX_DEPTH: 2
+      CRAWL_CONNECT_TIMEOUT_MS: 5000
+      CRAWL_HANDSHAKE_TIMEOUT_MS: 5000
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: relaymap-web
+    ports:
+      - "3001:80"
+    depends_on:
+      - api
+
   adminer:
     image: adminer:latest
     container_name: relaymap-adminer

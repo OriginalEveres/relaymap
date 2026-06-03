@@ -18,12 +18,12 @@ COPY . .
 RUN pnpm --filter @relaymap/db prisma:generate \
  && pnpm --filter @relaymap/crawler... build
 
+FROM deps AS pruned
+COPY --from=build /repo .
+RUN pnpm --filter @relaymap/crawler deploy --prod /app
+
 FROM node:22-alpine AS runtime
-RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=build /repo /repo
-WORKDIR /repo/apps/crawler
-# MaxMind GeoLite2 databases should be mounted at /data/geoip
-VOLUME ["/data/geoip"]
+COPY --from=pruned /app /app
 CMD ["node", "--enable-source-maps", "dist/main.js"]

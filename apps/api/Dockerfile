@@ -18,11 +18,13 @@ COPY . .
 RUN pnpm --filter @relaymap/db prisma:generate \
  && pnpm --filter @relaymap/api... build
 
+FROM deps AS pruned
+COPY --from=build /repo .
+RUN pnpm --filter @relaymap/api deploy --prod /app
+
 FROM node:22-alpine AS runtime
-RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=build /repo /repo
-WORKDIR /repo/apps/api
+COPY --from=pruned /app /app
 EXPOSE 3000
 CMD ["node", "--enable-source-maps", "dist/main.js"]

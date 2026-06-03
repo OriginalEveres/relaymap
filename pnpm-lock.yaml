@@ -53,6 +53,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@nestjs/cache-manager':
+        specifier: ^3.1.2
+        version: 3.1.2(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(cache-manager@7.2.8)(keyv@5.6.0)(rxjs@7.8.2)
       '@nestjs/common':
         specifier: ^11.0.0
         version: 11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -65,6 +68,9 @@ importers:
       '@nestjs/platform-fastify':
         specifier: ^11.0.0
         version: 11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))
+      '@nestjs/throttler':
+        specifier: ^6.5.0
+        version: 6.5.0(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)
       '@relaymap/api-contracts':
         specifier: workspace:*
         version: link:../../packages/api-contracts
@@ -74,15 +80,18 @@ importers:
       '@relaymap/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@relaymap/domain-shared':
-        specifier: workspace:*
-        version: link:../../packages/domain-shared
+      cache-manager:
+        specifier: ^7.2.8
+        version: 7.2.8
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      zod:
+        specifier: ^3.23.0
+        version: 3.25.76
     devDependencies:
       '@relaymap/tsconfig':
         specifier: workspace:*
@@ -201,9 +210,12 @@ importers:
 
   packages/bitcoin-network:
     dependencies:
-      '@maxmind/geoip2-node':
-        specifier: ^6.0.0
-        version: 6.3.4
+      '@ip-location-db/dbip-asn-mmdb':
+        specifier: ^2.3.2026050119
+        version: 2.3.2026050119
+      '@ip-location-db/dbip-city-mmdb':
+        specifier: ^2.3.2026050119
+        version: 2.3.2026050119
       '@nestjs/common':
         specifier: ^11.0.0
         version: 11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -216,9 +228,9 @@ importers:
       '@relaymap/db':
         specifier: workspace:*
         version: link:../db
-      '@relaymap/domain-shared':
-        specifier: workspace:*
-        version: link:../domain-shared
+      maxmind:
+        specifier: ^5.0.6
+        version: 5.0.6
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -232,6 +244,18 @@ importers:
       '@types/node':
         specifier: ^22.10.0
         version: 22.19.19
+      typescript:
+        specifier: ^6.0.0
+        version: 6.0.3
+      vitest:
+        specifier: ^4.1.0
+        version: 4.1.6(@types/node@22.19.19)(@vitest/coverage-v8@4.1.6)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))
+
+  packages/common/type-utils:
+    devDependencies:
+      '@relaymap/tsconfig':
+        specifier: workspace:*
+        version: link:../../tsconfig
       typescript:
         specifier: ^6.0.0
         version: 6.0.3
@@ -253,9 +277,6 @@ importers:
       '@relaymap/db':
         specifier: workspace:*
         version: link:../db
-      '@relaymap/domain-shared':
-        specifier: workspace:*
-        version: link:../domain-shared
       bitcoin-node-scanner:
         specifier: ^0.1.0
         version: 0.1.0
@@ -310,18 +331,6 @@ importers:
         specifier: ^6.0.0
         version: 6.0.3
 
-  packages/domain-shared:
-    devDependencies:
-      '@relaymap/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-      typescript:
-        specifier: ^6.0.0
-        version: 6.0.3
-      vitest:
-        specifier: ^4.1.0
-        version: 4.1.6(@types/node@22.19.19)(@vitest/coverage-v8@4.1.6)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))
-
   packages/tsconfig: {}
 
   packages/ui:
@@ -372,6 +381,9 @@ packages:
   '@boundaries/elements@2.0.1':
     resolution: {integrity: sha512-sAWO3D8PFP6pBXdxxW93SQi/KQqqhE2AAHo3AgWfdtJXwO6bfK6/wUN81XnOZk0qRC6vHzUEKhjwVD9dtDWvxg==}
     engines: {node: '>=18.18'}
+
+  '@cacheable/utils@2.4.1':
+    resolution: {integrity: sha512-eiFgzCbIneyMlLOmNG4g9xzF7Hv3Mga4LjxjcSC/ues6VYq2+gUbQI8JqNuw/ZM8tJIeIaBGpswAsqV2V7ApgA==}
 
   '@electric-sql/pglite-socket@0.1.1':
     resolution: {integrity: sha512-p2hoXw3Z3LQHwTeikdZNsFBOvXGqKY2hk51BBw+8NKND8eoH+8LFOtW9Z8CQKmTJ2qqGYu82ipqiyFZOTTXNfw==}
@@ -646,6 +658,12 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
+  '@ip-location-db/dbip-asn-mmdb@2.3.2026050119':
+    resolution: {integrity: sha512-bhJ6T91GHuvx5tAu09HRqr93XcO4pcsDO2iXFb121EQ4U4wNjyP/jDsyrQqB5m8fgsclQ0gcGA8vC98Jlpe8cw==}
+
+  '@ip-location-db/dbip-city-mmdb@2.3.2026050119':
+    resolution: {integrity: sha512-ydnQ4TYOsmtYQgu5aTfwu/CcpouFKD99H6AvPhQGYBZc/5ARaCDlD1AXWO0OGc/YjRqUgqgwtTWbbebdCkCi1w==}
+
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -663,6 +681,9 @@ packages:
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
 
+  '@keyv/serialize@1.1.1':
+    resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
+
   '@kurkle/color@0.3.4':
     resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
 
@@ -673,14 +694,20 @@ packages:
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
     engines: {node: '>=8'}
 
-  '@maxmind/geoip2-node@6.3.4':
-    resolution: {integrity: sha512-BTRFHCX7Uie4wVSPXsWQfg0EVl4eGZgLCts0BTKAP+Eiyt1zmF2UPyuUZkaj0R59XSDYO+84o1THAtaenUoQYg==}
-
   '@napi-rs/wasm-runtime@1.1.4':
     resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
+
+  '@nestjs/cache-manager@3.1.2':
+    resolution: {integrity: sha512-Eglt8lUzC3Q3OZ2hFt4vLZ190M94YSJXUiKo67K/zlUgZQGtvxL0AYeKbG96x8+1gJTF7QhFpYw/RkQ28416Mw==}
+    peerDependencies:
+      '@nestjs/common': ^9.0.0 || ^10.0.0 || ^11.0.0
+      '@nestjs/core': ^9.0.0 || ^10.0.0 || ^11.0.0
+      cache-manager: '>=6'
+      keyv: '>=5'
+      rxjs: ^7.8.1
 
   '@nestjs/common@11.1.20':
     resolution: {integrity: sha512-uivaQnTwnfnW1cam8rlh9Xpxvvq+9zKs5ywHWtHRHu1CSQ2FnsLvDewP9Ybhyuf6l075BXKgbixxyW9OKZGpmA==}
@@ -750,6 +777,13 @@ packages:
         optional: true
       '@nestjs/platform-express':
         optional: true
+
+  '@nestjs/throttler@6.5.0':
+    resolution: {integrity: sha512-9j0ZRfH0QE1qyrj9JjIRDz5gQLPqq9yVC2nHsrosDVAfI5HHw08/aUAWx9DZLSdQf4HDkmhTTEGLrRFHENvchQ==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+      reflect-metadata: ^0.1.13 || ^0.2.0
 
   '@nuxt/opencollective@0.4.1':
     resolution: {integrity: sha512-GXD3wy50qYbxCJ652bDrDzgMr3NFEkIS374+IgFQKkCvk9yiYcLvX2XDYr7UyQxf4wK0e+yqDYRubZ0DtOxnmQ==}
@@ -1464,6 +1498,9 @@ packages:
       magicast:
         optional: true
 
+  cache-manager@7.2.8:
+    resolution: {integrity: sha512-0HDaDLBBY/maa/LmUVAr70XUOwsiQD+jyzCBjmUErYZUKdMS9dT59PqW59PpVqfGM7ve6H0J6307JTpkCYefHQ==}
+
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
     engines: {node: '>= 0.4'}
@@ -2021,6 +2058,10 @@ packages:
     resolution: {integrity: sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==}
     engines: {node: '>= 0.4'}
 
+  hashery@1.5.1:
+    resolution: {integrity: sha512-iZyKG96/JwPz1N55vj2Ie2vXbhu440zfUfJvSwEqEbeLluk7NnapfGqa7LH0mOsnDxTF85Mx8/dyR6HfqcbmbQ==}
+    engines: {node: '>=20'}
+
   hasown@2.0.3:
     resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
     engines: {node: '>= 0.4'}
@@ -2028,6 +2069,9 @@ packages:
   hono@4.12.18:
     resolution: {integrity: sha512-RWzP96k/yv0PQfyXnWjs6zot20TqfpfsNXhOnev8d1InAxubW93L11/oNUc3tQqn2G0bSdAOBpX+2uDFHV7kdQ==}
     engines: {node: '>=16.9.0'}
+
+  hookified@1.15.1:
+    resolution: {integrity: sha512-MvG/clsADq1GPM2KGo2nyfaWVyn9naPiXrqIe4jYjXNZQt238kWyOGrsyc/DmRAQ+Re6yeo6yX/yoNCG5KAEVg==}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -2236,6 +2280,9 @@ packages:
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
+
+  keyv@5.6.0:
+    resolution: {integrity: sha512-CYDD3SOtsHtyXeEORYRx2qBtpDJFjRTGXUtmNEMGyzYOKj1TE3tycdlho7kA1Ufx9OYWZzg52QFBGALTirzDSw==}
 
   lazystream@1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
@@ -3312,6 +3359,9 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
@@ -3349,6 +3399,11 @@ snapshots:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
       - supports-color
+
+  '@cacheable/utils@2.4.1':
+    dependencies:
+      hashery: 1.5.1
+      keyv: 5.6.0
 
   '@electric-sql/pglite-socket@0.1.1(@electric-sql/pglite@0.4.1)':
     dependencies:
@@ -3556,6 +3611,10 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
+  '@ip-location-db/dbip-asn-mmdb@2.3.2026050119': {}
+
+  '@ip-location-db/dbip-city-mmdb@2.3.2026050119': {}
+
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -3576,6 +3635,8 @@ snapshots:
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
+  '@keyv/serialize@1.1.1': {}
+
   '@kurkle/color@0.3.4': {}
 
   '@kwsites/file-exists@1.1.1':
@@ -3586,16 +3647,20 @@ snapshots:
 
   '@lukeed/csprng@1.1.0': {}
 
-  '@maxmind/geoip2-node@6.3.4':
-    dependencies:
-      maxmind: 5.0.6
-
   '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
       '@emnapi/core': 1.10.0
       '@emnapi/runtime': 1.10.0
       '@tybys/wasm-util': 0.10.2
     optional: true
+
+  '@nestjs/cache-manager@3.1.2(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(cache-manager@7.2.8)(keyv@5.6.0)(rxjs@7.8.2)':
+    dependencies:
+      '@nestjs/common': 11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      cache-manager: 7.2.8
+      keyv: 5.6.0
+      rxjs: 7.8.2
 
   '@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
@@ -3655,6 +3720,12 @@ snapshots:
       '@nestjs/common': 11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
       tslib: 2.8.1
+
+  '@nestjs/throttler@6.5.0(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)':
+    dependencies:
+      '@nestjs/common': 11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      reflect-metadata: 0.2.2
 
   '@nuxt/opencollective@0.4.1':
     dependencies:
@@ -4404,6 +4475,11 @@ snapshots:
     optionalDependencies:
       magicast: 0.5.3
 
+  cache-manager@7.2.8:
+    dependencies:
+      '@cacheable/utils': 2.4.1
+      keyv: 5.6.0
+
   call-bind-apply-helpers@1.0.2:
     dependencies:
       es-errors: 1.3.0
@@ -5111,11 +5187,17 @@ snapshots:
     dependencies:
       has-symbols: 1.1.0
 
+  hashery@1.5.1:
+    dependencies:
+      hookified: 1.15.1
+
   hasown@2.0.3:
     dependencies:
       function-bind: 1.1.2
 
   hono@4.12.18: {}
+
+  hookified@1.15.1: {}
 
   html-escaper@2.0.2: {}
 
@@ -5311,6 +5393,10 @@ snapshots:
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
+
+  keyv@5.6.0:
+    dependencies:
+      '@keyv/serialize': 1.1.1
 
   lazystream@1.0.1:
     dependencies:
@@ -6461,5 +6547,7 @@ snapshots:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
+
+  zod@3.25.76: {}
 
   zod@4.4.3: {}
