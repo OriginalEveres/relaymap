@@ -3,8 +3,6 @@ import { Crawl } from "./crawl.aggregate.js";
 import { CrawlId } from "../value-objects/crawl-id.vo.js";
 import { CrawlStatus } from "../value-objects/crawl-status.vo.js";
 import { CrawlConfig } from "../value-objects/crawl-config.vo.js";
-import { CrawlStartedEvent } from "../events/crawl-started.event.js";
-import { CrawlCompletedEvent } from "../events/crawl-completed.event.js";
 
 const t0 = new Date("2026-05-19T00:00:00Z");
 const t1 = new Date("2026-05-19T00:30:00Z");
@@ -20,7 +18,7 @@ function buildConfig(): CrawlConfig {
 	});
 }
 
-describe(`${Crawl.name} aggregate`, () => {
+describe(`${Crawl.name}`, () => {
 	describe("start", () => {
 		it("creates an unsaved crawl in RUNNING with zero totals", () => {
 			const crawl = Crawl.start(buildConfig(), t0);
@@ -34,25 +32,14 @@ describe(`${Crawl.name} aggregate`, () => {
 			expect(s.reachableCount).toBe(0);
 			expect(s.failureReason).toBeNull();
 		});
-
-		it("does not emit CrawlStartedEvent before an id is assigned", () => {
-			const crawl = Crawl.start(buildConfig(), t0);
-			expect(crawl.pullEvents()).toHaveLength(0);
-		});
 	});
 
 	describe("assignId", () => {
-		it("sets the id and emits CrawlStartedEvent", () => {
+		it("sets the id", () => {
 			const crawl = Crawl.start(buildConfig(), t0);
 			const id = CrawlId.create(7);
 			crawl.assignId(id);
 			expect(crawl.snapshot.id).toBe(id);
-			const events = crawl.pullEvents();
-			expect(events).toHaveLength(1);
-			const ev = events[0] as CrawlStartedEvent;
-			expect(ev).toBeInstanceOf(CrawlStartedEvent);
-			expect(ev.crawlId).toBe(id);
-			expect(ev.occurredAt).toBe(t0);
 		});
 
 		it("rejects double assignment", () => {
@@ -66,7 +53,6 @@ describe(`${Crawl.name} aggregate`, () => {
 		it("transitions RUNNING → COMPLETED with totals", () => {
 			const crawl = Crawl.start(buildConfig(), t0);
 			crawl.assignId(CrawlId.create(7));
-			crawl.pullEvents();
 			crawl.complete(t1, { totalScanned: 10, totalDiscovered: 12, reachableCount: 8 });
 			const s = crawl.snapshot;
 			expect(s.status).toBe(CrawlStatus.COMPLETED);
@@ -74,27 +60,6 @@ describe(`${Crawl.name} aggregate`, () => {
 			expect(s.totalScanned).toBe(10);
 			expect(s.totalDiscovered).toBe(12);
 			expect(s.reachableCount).toBe(8);
-		});
-
-		it("emits CrawlCompletedEvent with the same totals", () => {
-			const crawl = Crawl.start(buildConfig(), t0);
-			crawl.assignId(CrawlId.create(7));
-			crawl.pullEvents();
-			crawl.complete(t1, { totalScanned: 10, totalDiscovered: 12, reachableCount: 8 });
-			const events = crawl.pullEvents();
-			expect(events).toHaveLength(1);
-			const ev = events[0] as CrawlCompletedEvent;
-			expect(ev).toBeInstanceOf(CrawlCompletedEvent);
-			expect(ev.totalScanned).toBe(10);
-			expect(ev.totalDiscovered).toBe(12);
-			expect(ev.reachableCount).toBe(8);
-			expect(ev.occurredAt).toBe(t1);
-		});
-
-		it("does not emit a completion event when id is not assigned", () => {
-			const crawl = Crawl.start(buildConfig(), t0);
-			crawl.complete(t1, { totalScanned: 1, totalDiscovered: 1, reachableCount: 1 });
-			expect(crawl.pullEvents()).toHaveLength(0);
 		});
 
 		it("rejects completion from non-RUNNING status", () => {
@@ -128,7 +93,7 @@ describe(`${Crawl.name} aggregate`, () => {
 	});
 
 	describe("rehydrate", () => {
-		it("reconstructs a crawl from a snapshot without emitting events", () => {
+		it("reconstructs a crawl from a snapshot", () => {
 			const snapshot = {
 				id: CrawlId.create(99),
 				status: CrawlStatus.COMPLETED,
@@ -142,7 +107,6 @@ describe(`${Crawl.name} aggregate`, () => {
 			};
 			const crawl = Crawl.rehydrate(snapshot);
 			expect(crawl.snapshot).toBe(snapshot);
-			expect(crawl.pullEvents()).toHaveLength(0);
 		});
 	});
 });

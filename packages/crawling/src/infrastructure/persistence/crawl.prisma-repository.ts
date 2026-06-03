@@ -6,33 +6,33 @@ import type { CrawlRepository } from "../../domain/repositories/crawl.repository
 
 @Injectable()
 export class PrismaCrawlRepository implements CrawlRepository {
-	constructor(@Inject(PRISMA_CLIENT) private readonly prisma: PrismaClient) {}
+  constructor(@Inject(PRISMA_CLIENT) private readonly prisma: PrismaClient) {}
 
-	async create(crawl: Crawl): Promise<Crawl> {
-		const s = crawl.snapshot;
-		const row = await this.prisma.crawl.create({
-			data: {
-				startedAt: s.startedAt,
-				status: s.status,
-				configJson: s.config.snapshot as object,
-			},
-		});
-		crawl.assignId(CrawlId.create(row.id));
-		return crawl;
-	}
+  async create(crawl: Crawl): Promise<Crawl> {
+    const s = crawl.snapshot;
+    const row = await this.prisma.crawl.create({
+      data: {
+        startedAt: s.startedAt,
+        status: s.status,
+        configJson: s.config.snapshot as object,
+      },
+    });
+    crawl.assignId(CrawlId.create(row.id));
+    return crawl;
+  }
 
-	async update(crawl: Crawl): Promise<void> {
-		const s = crawl.snapshot;
-		if (s.id === null) throw new Error("Cannot update unsaved crawl");
-		await this.prisma.crawl.update({
-			where: { id: s.id.value },
-			data: {
-				status: s.status,
-				finishedAt: s.finishedAt,
-				totalScanned: s.totalScanned,
-				totalDiscovered: s.totalDiscovered,
-				reachableCount: s.reachableCount,
-			},
-		});
-	}
+  async update(crawl: Crawl): Promise<void> {
+    const s = crawl.snapshot;
+    if (s.id === null) throw new Error("Cannot update unsaved crawl");
+    await this.prisma.crawl.update({
+      where: { id: s.id.value },
+      data: {
+        status: s.status,
+        finishedAt: s.finishedAt,
+        totalScanned: s.totalScanned,
+        totalDiscovered: s.totalDiscovered,
+        reachableCount: s.reachableCount,
+      },
+    });
+  }
 }
