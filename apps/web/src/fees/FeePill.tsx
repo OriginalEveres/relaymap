@@ -1,3 +1,5 @@
+import { Pill } from "@relaymap/ui";
+
 export function FeePill({
 	satVb,
 	satKb,
@@ -10,9 +12,9 @@ export function FeePill({
 	const bucket = satVb === 1 ? "default" : satVb <= 10 ? "elevated" : "aggressive";
 	const sk = satKb ?? satVb * 1000;
 	return (
-		<span className={`pill fee-${bucket}`} title={`${satVb} sat/vB · ${sk} sat/kB`}>
+		<Pill $variant={`fee-${bucket}`} title={`${satVb} sat/vB · ${sk} sat/kB`}>
 			{satVb} sat/vB
 			{showKb && <span style={{ opacity: 0.6 }}> · {sk.toLocaleString()}/kB</span>}
-		</span>
+		</Pill>
 	);
 }

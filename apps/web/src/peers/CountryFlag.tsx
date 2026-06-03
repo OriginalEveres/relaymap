@@ -1,8 +1,10 @@
+import { Flag, FlagImg } from "@relaymap/ui";
+
 export function CountryFlag({ cc, name }: { cc: string; name?: string }) {
 	return (
-		<span className="flag" title={name}>
-			<span className="cc" />
+		<Flag title={name}>
+			<FlagImg />
 			{cc}
-		</span>
+		</Flag>
 	);
 }

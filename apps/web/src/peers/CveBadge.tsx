@@ -1,7 +1,9 @@
+import { Pill } from "@relaymap/ui";
+
 export function CveBadge({ cve = "CVE-2024-?" }: { cve?: string }) {
 	return (
-		<span className="pill cve" title={cve}>
+		<Pill $variant="bad" title={cve}>
 			⚠ {cve}
-		</span>
+		</Pill>
 	);
 }
