@@ -3,7 +3,7 @@
   "include": [],
   "references": [
     { "path": "./packages/tsconfig" },
-    { "path": "./packages/domain-shared" },
+    { "path": "./packages/common/type-utils" },
     { "path": "./packages/api-contracts" },
     { "path": "./packages/db" },
     { "path": "./packages/bitcoin-network" },
