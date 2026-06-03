@@ -7,7 +7,6 @@
     "types": ["node"]
   },
   "references": [
-    { "path": "../../packages/domain-shared" },
     { "path": "../../packages/api-contracts" },
     { "path": "../../packages/db" },
     { "path": "../../packages/bitcoin-network" }

@@ -13,16 +13,19 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@relaymap/api-contracts": "workspace:*",
-    "@relaymap/bitcoin-network": "workspace:*",
-    "@relaymap/db": "workspace:*",
-    "@relaymap/domain-shared": "workspace:*",
+    "@nestjs/cache-manager": "^3.1.2",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-fastify": "^11.0.0",
+    "@nestjs/throttler": "^6.5.0",
+    "@relaymap/api-contracts": "workspace:*",
+    "@relaymap/bitcoin-network": "workspace:*",
+    "@relaymap/db": "workspace:*",
+    "cache-manager": "^7.2.8",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "zod": "^3.23.0"
   },
   "devDependencies": {
     "@relaymap/tsconfig": "workspace:*",
