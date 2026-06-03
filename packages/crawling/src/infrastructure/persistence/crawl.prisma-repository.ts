@@ -35,4 +35,12 @@ export class PrismaCrawlRepository implements CrawlRepository {
       },
     });
   }
+
+  async hasCompleted(): Promise<boolean> {
+    const count = await this.prisma.crawl.count({
+      where: { status: "COMPLETED" },
+      take: 1,
+    });
+    return count > 0;
+  }
 }

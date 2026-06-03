@@ -5,4 +5,5 @@ export const CRAWL_REPOSITORY = Symbol("CrawlRepository");
 export interface CrawlRepository {
 	create(crawl: Crawl): Promise<Crawl>;
 	update(crawl: Crawl): Promise<void>;
+	hasCompleted(): Promise<boolean>;
 }

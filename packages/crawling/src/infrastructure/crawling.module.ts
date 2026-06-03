@@ -15,6 +15,6 @@ import { BitcoinNodeScannerAdapter } from "./scanner/bitcoin-node-scanner.adapte
 		{ provide: NODE_SCANNER, useClass: BitcoinNodeScannerAdapter },
 		RunScheduledCrawlUseCase,
 	],
-	exports: [RunScheduledCrawlUseCase],
+	exports: [RunScheduledCrawlUseCase, CRAWL_REPOSITORY],
 })
 export class CrawlingModule {}

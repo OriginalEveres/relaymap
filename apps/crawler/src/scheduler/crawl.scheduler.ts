@@ -9,6 +9,8 @@ import { SchedulerRegistry } from "@nestjs/schedule";
 import { CronJob } from "cron";
 import {
   RunScheduledCrawlUseCase,
+  CRAWL_REPOSITORY,
+  type CrawlRepository,
   type CrawlConfigSnapshot,
 } from "@relaymap/crawling";
 import {
@@ -28,9 +30,10 @@ export class CrawlScheduler implements OnModuleInit, OnModuleDestroy {
     private readonly runCrawl: RunScheduledCrawlUseCase,
     private readonly scheduler: SchedulerRegistry,
     @Inject(CRAWLER_CONFIG) private readonly config: CrawlerConfig,
+    @Inject(CRAWL_REPOSITORY) private readonly crawls: CrawlRepository,
   ) {}
 
-  onModuleInit(): void {
+  async onModuleInit(): Promise<void> {
     const job = new CronJob(this.config.cronSchedule, () => {
       void this.handleScheduledCrawl();
     });
@@ -39,6 +42,12 @@ export class CrawlScheduler implements OnModuleInit, OnModuleDestroy {
     this.logger.log(
       `Scheduled crawl registered with cron "${this.config.cronSchedule}"`,
     );
+
+    const hasPrevious = await this.crawls.hasCompleted();
+    if (!hasPrevious) {
+      this.logger.log("No completed crawl found — starting initial crawl");
+      void this.handleScheduledCrawl();
+    }
   }
 
   async handleScheduledCrawl(): Promise<void> {
