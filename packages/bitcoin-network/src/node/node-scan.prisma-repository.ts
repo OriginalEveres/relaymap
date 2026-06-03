@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { PRISMA_CLIENT, type PrismaClient } from "@relaymap/db";
-import type { NodeScan } from "../../domain/entities/node-scan.entity.js";
-import type { NodeScanRepository } from "../../domain/repositories/node-scan.repository.js";
+import type { NodeScan } from "./node-scan.entity.js";
+import type { NodeScanRepository } from "./node-scan.repository.js";
 
 @Injectable()
 export class PrismaNodeScanRepository implements NodeScanRepository {

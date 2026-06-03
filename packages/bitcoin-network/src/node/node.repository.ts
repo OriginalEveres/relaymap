@@ -1,5 +1,5 @@
-import type { Node } from "../aggregates/node.aggregate.js";
-import type { NetworkAddress } from "../value-objects/network-address.vo.js";
+import type { Node } from "./node.aggregate.js";
+import type { NetworkAddress } from "./network-address.vo.js";
 
 export const NODE_REPOSITORY = Symbol("NodeRepository");
 

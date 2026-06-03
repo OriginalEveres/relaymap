@@ -1,8 +1,8 @@
-import { Node, type NodeSnapshot } from "../../domain/aggregates/node.aggregate.js";
-import { NetworkAddress } from "../../domain/value-objects/network-address.vo.js";
-import { PeerInfo } from "../../domain/value-objects/peer-info.vo.js";
-import { GeoLocation } from "../../domain/value-objects/geo-location.vo.js";
-import type { DiscoverySource } from "../../domain/value-objects/discovery-source.vo.js";
+import { Node, type NodeSnapshot } from "./node.aggregate.js";
+import { NetworkAddress } from "./network-address.vo.js";
+import { PeerInfo } from "./peer-info.vo.js";
+import { GeoLocation } from "../geo/geo-location.vo.js";
+import type { DiscoverySource } from "./discovery-source.vo.js";
 
 export interface PrismaNodeRow {
 	id: number;

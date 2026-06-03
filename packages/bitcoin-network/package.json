@@ -20,12 +20,13 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@relaymap/api-contracts": "workspace:*",
-    "@relaymap/db": "workspace:*",
-    "@relaymap/domain-shared": "workspace:*",
-    "@maxmind/geoip2-node": "^6.0.0",
+    "@ip-location-db/dbip-asn-mmdb": "^2.3.2026050119",
+    "@ip-location-db/dbip-city-mmdb": "^2.3.2026050119",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
+    "@relaymap/api-contracts": "workspace:*",
+    "@relaymap/db": "workspace:*",
+    "maxmind": "^5.0.6",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

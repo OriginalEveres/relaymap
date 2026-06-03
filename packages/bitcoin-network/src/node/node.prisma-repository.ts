@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { PRISMA_CLIENT, type PrismaClient } from "@relaymap/db";
-import type { Node } from "../../domain/aggregates/node.aggregate.js";
-import type { NetworkAddress } from "../../domain/value-objects/network-address.vo.js";
-import type { NodeRepository } from "../../domain/repositories/node.repository.js";
+import type { Node } from "./node.aggregate.js";
+import type { NetworkAddress } from "./network-address.vo.js";
+import type { NodeRepository } from "./node.repository.js";
 import { NodeMapper, type PrismaNodeRow } from "./node.mapper.js";
 
 @Injectable()

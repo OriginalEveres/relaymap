@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { NodeScan } from "./node-scan.entity.js";
-import { DiscoverySource } from "../value-objects/discovery-source.vo.js";
-import { PeerInfo } from "../value-objects/peer-info.vo.js";
-import { ScanError, ScanErrorCode } from "../value-objects/scan-error.vo.js";
-import { NODE_NETWORK } from "../value-objects/services.vo.js";
+import { DiscoverySource } from "./discovery-source.vo.js";
+import { PeerInfo } from "./peer-info.vo.js";
+import { ScanError, ScanErrorCode } from "./scan-error.vo.js";
+import { NODE_NETWORK } from "./services.vo.js";
 
 const scannedAt = new Date("2026-05-19T12:00:00Z");
 

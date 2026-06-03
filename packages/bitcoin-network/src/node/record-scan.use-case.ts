@@ -1,20 +1,20 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Node } from "../../domain/aggregates/node.aggregate.js";
-import { NodeScan } from "../../domain/entities/node-scan.entity.js";
-import { NetworkAddress } from "../../domain/value-objects/network-address.vo.js";
-import { PeerInfo, type PeerInfoSnapshot } from "../../domain/value-objects/peer-info.vo.js";
-import { ScanError, type ScanErrorCode } from "../../domain/value-objects/scan-error.vo.js";
-import type { DiscoverySource } from "../../domain/value-objects/discovery-source.vo.js";
-import { GeoLocation } from "../../domain/value-objects/geo-location.vo.js";
+import { Node } from "./node.aggregate.js";
+import { NodeScan } from "./node-scan.entity.js";
+import { NetworkAddress } from "./network-address.vo.js";
+import { PeerInfo, type PeerInfoSnapshot } from "./peer-info.vo.js";
+import { ScanError, type ScanErrorCode } from "./scan-error.vo.js";
+import type { DiscoverySource } from "./discovery-source.vo.js";
+import { GeoLocation } from "../geo/geo-location.vo.js";
 import {
 	NODE_REPOSITORY,
 	type NodeRepository,
-} from "../../domain/repositories/node.repository.js";
+} from "./node.repository.js";
 import {
 	NODE_SCAN_REPOSITORY,
 	type NodeScanRepository,
-} from "../../domain/repositories/node-scan.repository.js";
-import { GEO_ENRICHER, type GeoEnricher } from "../ports/geo-enricher.port.js";
+} from "./node-scan.repository.js";
+import { GEO_ENRICHER, type GeoEnricher } from "../geo/geo-enricher.port.js";
 
 export interface RecordScanCommand {
 	readonly crawlId: number;

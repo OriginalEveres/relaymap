@@ -1,4 +1,4 @@
-import type { NodeScan } from "../entities/node-scan.entity.js";
+import type { NodeScan } from "./node-scan.entity.js";
 
 export const NODE_SCAN_REPOSITORY = Symbol("NodeScanRepository");
 

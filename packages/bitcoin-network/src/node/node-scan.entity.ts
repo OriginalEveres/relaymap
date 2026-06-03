@@ -1,6 +1,6 @@
-import type { DiscoverySource } from "../value-objects/discovery-source.vo.js";
-import type { PeerInfo } from "../value-objects/peer-info.vo.js";
-import type { ScanError } from "../value-objects/scan-error.vo.js";
+import type { DiscoverySource } from "./discovery-source.vo.js";
+import type { PeerInfo } from "./peer-info.vo.js";
+import type { ScanError } from "./scan-error.vo.js";
 
 export interface NodeScanProps {
 	readonly scannedAt: Date;
