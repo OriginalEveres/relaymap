@@ -22,6 +22,7 @@ services:
       dockerfile: apps/api/Dockerfile
       target: build
     container_name: relaymap-migrate
+    restart: "no"
     environment:
       DATABASE_URL: postgresql://relaymap:relaymap@postgres:5432/relaymap?schema=public
     command: pnpm --filter @relaymap/db prisma:migrate:deploy
