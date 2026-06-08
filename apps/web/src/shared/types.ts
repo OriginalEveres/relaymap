@@ -4,7 +4,7 @@
 
 export type Cohort = "current" | "aging" | "old" | "outdated";
 export type FeeBucket = "default" | "elevated" | "aggressive";
-export type AddrType = "ipv4" | "ipv6" | "tor";
+export type AddrType = "ipv4" | "ipv6";
 
 export interface NetworkMeta {
 	readonly lastCrawl: string;
@@ -65,7 +65,7 @@ export interface ServiceStat {
 }
 
 export interface AddrTypeStat {
-	readonly type: "IPv4" | "IPv6" | "Tor";
+	readonly type: "IPv4" | "IPv6";
 	readonly pct: number;
 	readonly count: number;
 }

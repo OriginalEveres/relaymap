@@ -115,7 +115,7 @@ export function PeersTable({
                     ⚠
                   </span>
                 )}
-                {r.addrType === "tor" ? r.ip.slice(0, 18) + "\u2026" : r.ip}
+                {r.ip}
                 <span style={{ color: "var(--text-faint)" }}>:{r.port}</span>
               </td>
               <td>

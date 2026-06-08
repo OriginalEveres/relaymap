@@ -55,10 +55,6 @@ export function AboutPage() {
 								crawlers. Estimates put unreachable nodes at 5-10x reachable.
 							</li>
 							<li>
-								<strong>Tor under-representation.</strong> Tor circuits are slow and sometimes blocked; Tor node
-								counts are a lower bound.
-							</li>
-							<li>
 								<strong>Self-reporting.</strong> User agents and service flags are advertised, not verified — a node
 								can lie. We sanity-check version against protocol behavior.
 							</li>

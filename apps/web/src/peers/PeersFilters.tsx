@@ -42,7 +42,6 @@ export const addrChoices: ReadonlyArray<[AddrTypeFilter, string]> = [
   ["all", "all"],
   ["ipv4", "IPv4"],
   ["ipv6", "IPv6"],
-  ["tor", "Tor"],
 ];
 
 export function PeersFilters({

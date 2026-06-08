@@ -10,7 +10,7 @@ import {
 import type { AddrTypeStat, NetworkData } from "../shared/types.js";
 
 const addrColor = (t: AddrTypeStat["type"]): string =>
-  t === "IPv4" ? "#D5451B" : t === "IPv6" ? "#FF9B45" : "#6B4F8C";
+  t === "IPv4" ? "#D5451B" : "#FF9B45";
 
 interface Props {
   data: NetworkData;
