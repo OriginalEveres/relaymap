@@ -8,6 +8,7 @@ import { BitcoinNetworkModule } from "@relaymap/bitcoin-network";
 import { HealthController } from "./health/health.controller.js";
 import { NodesController } from "./bitcoin-network/nodes.controller.js";
 import { StatsController } from "./bitcoin-network/stats.controller.js";
+import { DashboardController } from "./bitcoin-network/dashboard.controller.js";
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { StatsController } from "./bitcoin-network/stats.controller.js";
     DbModule.forRoot(),
     BitcoinNetworkModule.forRoot(),
   ],
-  controllers: [HealthController, NodesController, StatsController],
+  controllers: [HealthController, NodesController, StatsController, DashboardController],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

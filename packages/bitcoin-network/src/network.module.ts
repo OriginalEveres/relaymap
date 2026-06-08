@@ -9,6 +9,8 @@ import { PrismaNodeRepository } from "./node/node.prisma-repository.js";
 import { PrismaNodeScanRepository } from "./node/node-scan.prisma-repository.js";
 import { PrismaListNodesQuery } from "./node/list-nodes.prisma-query.js";
 import { PrismaNetworkSummaryQuery } from "./node/network-summary.prisma-query.js";
+import { DASHBOARD_QUERY } from "./node/dashboard.query.js";
+import { PrismaDashboardQuery } from "./node/dashboard.prisma-query.js";
 import { DbIpGeoEnricher } from "./geo/dbip-geo-enricher.adapter.js";
 
 @Module({})
@@ -20,6 +22,7 @@ export class BitcoinNetworkModule {
       { provide: GEO_ENRICHER, useClass: DbIpGeoEnricher },
       { provide: LIST_NODES_QUERY, useClass: PrismaListNodesQuery },
       { provide: NETWORK_SUMMARY_QUERY, useClass: PrismaNetworkSummaryQuery },
+      { provide: DASHBOARD_QUERY, useClass: PrismaDashboardQuery },
       RecordScanUseCase,
     ];
 
@@ -27,7 +30,7 @@ export class BitcoinNetworkModule {
       module: BitcoinNetworkModule,
       global: true,
       providers,
-      exports: [RecordScanUseCase, LIST_NODES_QUERY, NETWORK_SUMMARY_QUERY],
+      exports: [RecordScanUseCase, LIST_NODES_QUERY, NETWORK_SUMMARY_QUERY, DASHBOARD_QUERY],
     };
   }
 }

@@ -10,6 +10,11 @@ export {
 	type NetworkSummaryQueryHandler,
 } from "./node/network-summary.query.js";
 
+export {
+	DASHBOARD_QUERY,
+	type DashboardQueryHandler,
+} from "./node/dashboard.query.js";
+
 export type { NodeSnapshot } from "./node/node.aggregate.js";
 export { DiscoverySource } from "./node/discovery-source.vo.js";
 export { ScanErrorCode } from "./node/scan-error.vo.js";
