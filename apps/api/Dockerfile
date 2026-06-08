@@ -4,27 +4,35 @@ RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
 WORKDIR /repo
 
 FROM base AS deps
-COPY pnpm-workspace.yaml package.json .npmrc ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 COPY apps/api/package.json apps/api/
 COPY packages/api-contracts/package.json packages/api-contracts/
 COPY packages/bitcoin-network/package.json packages/bitcoin-network/
 COPY packages/db/package.json packages/db/
-COPY packages/domain-shared/package.json packages/domain-shared/
+COPY packages/common/type-utils/package.json packages/common/type-utils/
 COPY packages/tsconfig/package.json packages/tsconfig/
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --prod --shamefully-hoist
+RUN cp -r node_modules /prod_modules
 
 FROM deps AS build
+RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm --filter @relaymap/db prisma:generate \
  && pnpm --filter @relaymap/api... build
 
-FROM deps AS pruned
-COPY --from=build /repo .
-RUN pnpm --filter @relaymap/api deploy --prod /app
-
 FROM node:22-alpine AS runtime
-WORKDIR /app
+WORKDIR /repo
 ENV NODE_ENV=production
-COPY --from=pruned /app /app
+COPY --from=deps /repo/pnpm-workspace.yaml /repo/package.json /repo/.npmrc ./
+COPY --from=deps /prod_modules ./node_modules
+COPY --from=build /repo/apps/api/dist ./apps/api/dist
+COPY --from=build /repo/apps/api/package.json ./apps/api/
+COPY --from=build /repo/packages/api-contracts/dist ./packages/api-contracts/dist
+COPY --from=build /repo/packages/api-contracts/package.json ./packages/api-contracts/
+COPY --from=build /repo/packages/bitcoin-network/dist ./packages/bitcoin-network/dist
+COPY --from=build /repo/packages/bitcoin-network/package.json ./packages/bitcoin-network/
+COPY --from=build /repo/packages/db/dist ./packages/db/dist
+COPY --from=build /repo/packages/db/package.json ./packages/db/
+COPY --from=build /repo/packages/db/prisma ./packages/db/prisma
 EXPOSE 3000
-CMD ["node", "--enable-source-maps", "dist/main.js"]
+CMD ["node", "--enable-source-maps", "apps/api/dist/main.js"]

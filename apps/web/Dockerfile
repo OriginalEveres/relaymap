@@ -4,7 +4,7 @@ RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
 WORKDIR /repo
 
 FROM base AS deps
-COPY pnpm-workspace.yaml package.json .npmrc ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 COPY apps/web/package.json apps/web/
 COPY packages/api-contracts/package.json packages/api-contracts/
 COPY packages/ui/package.json packages/ui/
