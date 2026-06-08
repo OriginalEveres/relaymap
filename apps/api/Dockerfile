@@ -6,9 +6,13 @@ WORKDIR /repo
 FROM base AS deps
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 COPY apps/api/package.json apps/api/
+COPY apps/crawler/package.json apps/crawler/
+COPY apps/web/package.json apps/web/
 COPY packages/api-contracts/package.json packages/api-contracts/
 COPY packages/bitcoin-network/package.json packages/bitcoin-network/
+COPY packages/crawling/package.json packages/crawling/
 COPY packages/db/package.json packages/db/
+COPY packages/ui/package.json packages/ui/
 COPY packages/common/type-utils/package.json packages/common/type-utils/
 COPY packages/tsconfig/package.json packages/tsconfig/
 RUN pnpm install --frozen-lockfile --prod --shamefully-hoist
