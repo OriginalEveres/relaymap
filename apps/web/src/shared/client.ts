@@ -1,14 +1,12 @@
 import {
+  DashboardResponseSchema,
   ListNodesResponseSchema,
   type ListNodesQuery,
   type ListNodesResponse,
 } from "@relaymap/api-contracts";
-import { MOCK_NETWORK_DATA } from "./mock.js";
 import type { NetworkData } from "./types.js";
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "/api/v1";
-
-// ---- Real endpoints (currently shipped by apps/api) ----------------------------------
 
 export async function fetchHealth(
   signal?: AbortSignal,
@@ -31,14 +29,11 @@ export async function fetchNodes(
   return ListNodesResponseSchema.parse(raw);
 }
 
-// ---- Aggregated network data ---------------------------------------------------------
-// The dashboard needs a handful of aggregates the backend can't yet produce — see
-// docs/BACKEND-GAPS.md. Until those land we use the seeded mock dataset so the UI
-// renders in full fidelity. As each endpoint ships, hydrate the corresponding slice
-// from real data here.
-
 export async function fetchNetworkData(
-  _signal?: AbortSignal,
+  signal?: AbortSignal,
 ): Promise<NetworkData> {
-  return MOCK_NETWORK_DATA;
+  const res = await fetch(`${API_BASE}/dashboard`, { signal });
+  if (!res.ok) throw new Error(`Dashboard fetch failed: ${res.status}`);
+  const raw: unknown = await res.json();
+  return DashboardResponseSchema.parse(raw) as NetworkData;
 }
