@@ -15,7 +15,7 @@ RUN pnpm install --frozen-lockfile --prod --shamefully-hoist
 RUN cp -r node_modules /prod_modules
 
 FROM deps AS build
-RUN pnpm install --frozen-lockfile
+RUN rm -rf node_modules && pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm --filter @relaymap/db prisma:generate \
  && pnpm --filter @relaymap/crawler... build
