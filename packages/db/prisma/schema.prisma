@@ -12,7 +12,7 @@ datasource db {
 model Node {
   id              Int       @id @default(autoincrement())
   ip              String    @db.Inet
-  port            Int       @db.SmallInt
+  port            Int
   firstSeenAt     DateTime  @default(now())
   lastSeenAt      DateTime  @default(now())
   lastReachableAt DateTime?

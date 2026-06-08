@@ -8,6 +8,7 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.createApplicationContext(CrawlerAppModule, {
     bufferLogs: true,
   });
+  app.flushLogs();
   app.enableShutdownHooks();
   logger.log("Crawler context initialized — scheduler is now active");
 }

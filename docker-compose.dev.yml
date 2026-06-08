@@ -1,3 +1,15 @@
+x-source-mounts: &source-mounts
+  - ./apps/api/src:/repo/apps/api/src
+  - ./apps/crawler/src:/repo/apps/crawler/src
+  - ./apps/web/src:/repo/apps/web/src
+  - ./packages/api-contracts/src:/repo/packages/api-contracts/src
+  - ./packages/bitcoin-network/src:/repo/packages/bitcoin-network/src
+  - ./packages/crawling/src:/repo/packages/crawling/src
+  - ./packages/db/src:/repo/packages/db/src
+  - ./packages/db/prisma:/repo/packages/db/prisma
+  - ./packages/ui/src:/repo/packages/ui/src
+  - ./packages/common/type-utils/src:/repo/packages/common/type-utils/src
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -19,9 +31,9 @@ services:
   migrate:
     build:
       context: .
-      dockerfile: apps/api/Dockerfile
-      target: build
+      dockerfile: Dockerfile.dev
     container_name: relaymap-migrate
+    restart: "no"
     environment:
       DATABASE_URL: postgresql://relaymap:relaymap@postgres:5432/relaymap?schema=public
     command: pnpm --filter @relaymap/db prisma:migrate:deploy
@@ -40,9 +52,7 @@ services:
       DATABASE_URL: postgresql://relaymap:relaymap@postgres:5432/relaymap?schema=public
       API_PORT: 3000
       API_CORS_ORIGINS: "http://localhost:3001"
-    volumes:
-      - .:/repo
-      - node_modules:/repo/node_modules
+    volumes: *source-mounts
     command: pnpm --filter @relaymap/api dev
     depends_on:
       migrate:
@@ -60,10 +70,8 @@ services:
       CRAWL_MAX_DEPTH: 2
       CRAWL_CONNECT_TIMEOUT_MS: 5000
       CRAWL_HANDSHAKE_TIMEOUT_MS: 5000
-    volumes:
-      - .:/repo
-      - node_modules:/repo/node_modules
-    command: pnpm --filter @relaymap/crawler dev
+    volumes: *source-mounts
+    command: ["sh", "-c", "pnpm --filter @relaymap/crawler build && exec node --enable-source-maps apps/crawler/dist/main.js"]
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -77,9 +85,7 @@ services:
       - "3001:3001"
     environment:
       VITE_API_URL: http://api:3000
-    volumes:
-      - .:/repo
-      - node_modules:/repo/node_modules
+    volumes: *source-mounts
     command: pnpm --filter @relaymap/web dev -- --host 0.0.0.0
     depends_on:
       - api
@@ -88,11 +94,10 @@ services:
     image: adminer:latest
     container_name: relaymap-adminer
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       postgres:
         condition: service_healthy
 
 volumes:
   postgres-data:
-  node_modules:
