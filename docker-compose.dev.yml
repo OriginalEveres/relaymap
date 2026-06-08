@@ -68,6 +68,7 @@ services:
       CRAWL_CRON: "0 */6 * * *"
       CRAWL_MAX_CONCURRENT: 500
       CRAWL_MAX_DEPTH: 2
+      CRAWL_MAX_NODES: 100000
       CRAWL_CONNECT_TIMEOUT_MS: 5000
       CRAWL_HANDSHAKE_TIMEOUT_MS: 5000
     volumes: *source-mounts

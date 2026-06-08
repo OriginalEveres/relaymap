@@ -83,7 +83,7 @@ export class CrawlScheduler implements OnModuleInit, OnModuleDestroy {
       skipDnsSeeds: false,
       maxConcurrent: this.config.maxConcurrent,
       maxDepth: this.config.maxDepth,
-      maxNodes: null,
+      maxNodes: this.config.maxNodes,
       connectTimeoutMs: this.config.connectTimeoutMs,
       handshakeTimeoutMs: this.config.handshakeTimeoutMs,
     };

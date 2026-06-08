@@ -6,6 +6,7 @@ const CrawlerConfigSchema = z.object({
   cronSchedule: z.string().default("0 */6 * * *"),
   maxConcurrent: z.coerce.number().int().min(1).default(500),
   maxDepth: z.coerce.number().int().min(0).default(2),
+  maxNodes: z.coerce.number().int().min(1).nullable().default(null),
   connectTimeoutMs: z.coerce.number().int().min(100).default(5000),
   handshakeTimeoutMs: z.coerce.number().int().min(100).default(5000),
 });
@@ -19,6 +20,7 @@ export function loadCrawlerConfig(
     cronSchedule: env.CRAWL_CRON,
     maxConcurrent: env.CRAWL_MAX_CONCURRENT,
     maxDepth: env.CRAWL_MAX_DEPTH,
+    maxNodes: env.CRAWL_MAX_NODES ?? null,
     connectTimeoutMs: env.CRAWL_CONNECT_TIMEOUT_MS,
     handshakeTimeoutMs: env.CRAWL_HANDSHAKE_TIMEOUT_MS,
   });
