@@ -37,7 +37,11 @@ export class RunScheduledCrawlUseCase {
 			for await (const result of handle.results) {
 				totalScanned++;
 				if (result.reachable) reachableCount++;
-				await this.recordOne(crawlId.value, result);
+				try {
+					await this.recordOne(crawlId.value, result);
+				} catch (err) {
+					this.logger.warn(`Skipping ${result.ip}:${result.port} — ${(err as Error).message}`);
+				}
 			}
 			crawl.complete(new Date(), {
 				totalScanned,
