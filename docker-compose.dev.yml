@@ -85,7 +85,7 @@ services:
     ports:
       - "3001:3001"
     environment:
-      VITE_API_URL: http://api:3000
+      API_PROXY_TARGET: http://api:3000
     volumes: *source-mounts
     command: pnpm --filter @relaymap/web dev
     depends_on:
