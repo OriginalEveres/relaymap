@@ -18,12 +18,14 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.0",
+    "react-simple-maps": "^3.0.0",
     "styled-components": "^6.4.2"
   },
   "devDependencies": {
     "@relaymap/tsconfig": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/react-simple-maps": "^3.0.6",
     "@types/styled-components": "^5.1.36",
     "@vitejs/plugin-react": "^6.0.0",
     "typescript": "^6.0.0",
