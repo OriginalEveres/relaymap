@@ -87,7 +87,7 @@ services:
     environment:
       VITE_API_URL: http://api:3000
     volumes: *source-mounts
-    command: pnpm --filter @relaymap/web dev -- --host 0.0.0.0
+    command: pnpm --filter @relaymap/web dev
     depends_on:
       - api
 
