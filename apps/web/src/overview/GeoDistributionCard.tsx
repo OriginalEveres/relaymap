@@ -20,7 +20,7 @@ export function GeoDistributionCard({ data }: Props) {
   return (
     <Card>
       <CardHead title="Geographic distribution" />
-      <WorldMap peers={data.peers} />
+      <WorldMap peers={data.peers} total={data.meta.total} />
       <RowList style={{ marginTop: 12 }}>
         {data.topCountries.map((c) => (
           <RowItem key={c.cc}>
