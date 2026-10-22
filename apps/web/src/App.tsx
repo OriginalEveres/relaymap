@@ -10,36 +10,47 @@ import { FeesPage } from "./fees/FeesPage.js";
 import { ApiPage } from "./meta/ApiPage.js";
 import { FeedbackPage } from "./meta/FeedbackPage.js";
 import { AboutPage } from "./meta/AboutPage.js";
+import { CohortProvider } from "./versions/cohort-context.js";
 
 export function App() {
-	const { data, error, loading } = useAsync((signal) => fetchNetworkData(signal));
+  const { data, error, loading } = useAsync((signal) =>
+    fetchNetworkData(signal),
+  );
 
-	if (error) {
-		return (
-			<div style={{ padding: 40, fontFamily: "var(--font-mono)", color: "var(--bad)" }}>
-				Failed to load: {error.message}
-			</div>
-		);
-	}
+  if (error) {
+    return (
+      <div
+        style={{
+          padding: 40,
+          fontFamily: "var(--font-mono)",
+          color: "var(--bad)",
+        }}
+      >
+        Failed to load: {error.message}
+      </div>
+    );
+  }
 
-	if (loading || !data) {
-		return <DashboardSkeleton />;
-	}
+  if (loading || !data) {
+    return <DashboardSkeleton />;
+  }
 
-	return (
-		<HashRouter>
-			<TopShell meta={data.meta}>
-				<Routes>
-					<Route path="/" element={<DashboardPage data={data} />} />
-					<Route path="/peers" element={<PeersPage data={data} />} />
-					<Route path="/node/:ip" element={<NodeDetailPage data={data} />} />
-					<Route path="/fees" element={<FeesPage data={data} />} />
-					<Route path="/api" element={<ApiPage />} />
-					<Route path="/feedback" element={<FeedbackPage />} />
-					<Route path="/about" element={<AboutPage />} />
-					<Route path="*" element={<Navigate to="/" replace />} />
-				</Routes>
-			</TopShell>
-		</HashRouter>
-	);
+  return (
+    <HashRouter>
+      <CohortProvider peers={data.peers}>
+        <TopShell meta={data.meta}>
+          <Routes>
+            <Route path="/" element={<DashboardPage data={data} />} />
+            <Route path="/peers" element={<PeersPage data={data} />} />
+            <Route path="/node/:ip" element={<NodeDetailPage data={data} />} />
+            <Route path="/fees" element={<FeesPage data={data} />} />
+            <Route path="/api" element={<ApiPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </TopShell>
+      </CohortProvider>
+    </HashRouter>
+  );
 }

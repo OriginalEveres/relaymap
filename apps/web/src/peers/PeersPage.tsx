@@ -9,6 +9,7 @@ import type {
 } from "./PeersFilters.js";
 import { PeersTable, PAGE_SIZE } from "./PeersTable.js";
 import type { Sort, SortKey } from "./PeersTable.js";
+import { useCohort } from "../versions/cohort-context.js";
 
 function getSortValue(peer: Peer, key: SortKey): string | number | boolean {
   return peer[key as keyof Peer] as string | number | boolean;
@@ -22,6 +23,7 @@ export function PeersPage({ data }: { data: NetworkData }) {
   const [relayOnly, setRelayOnly] = useState(false);
   const [sort, setSort] = useState<Sort>({ key: "lastSeen", dir: "asc" });
   const [page, setPage] = useState(0);
+  const { cohortFor } = useCohort();
 
   const filtered = useMemo(() => {
     let rows = [...data.peers];
@@ -34,7 +36,7 @@ export function PeersPage({ data }: { data: NetworkData }) {
           r.ua.toLowerCase().includes(needle),
       );
     }
-    if (cohort !== "all") rows = rows.filter((r) => r.cohort === cohort);
+    if (cohort !== "all") rows = rows.filter((r) => cohortFor(r.ua) === cohort);
     if (feeBucket !== "all")
       rows = rows.filter((r) => r.feeBucket === feeBucket);
     if (addrType !== "all") rows = rows.filter((r) => r.addrType === addrType);
@@ -49,7 +51,7 @@ export function PeersPage({ data }: { data: NetworkData }) {
       return sort.dir === "asc" ? cmp : -cmp;
     });
     return rows;
-  }, [q, cohort, feeBucket, addrType, relayOnly, sort, data.peers]);
+  }, [q, cohort, feeBucket, addrType, relayOnly, sort, data.peers, cohortFor]);
 
   const total = filtered.length;
   const pageRows = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);

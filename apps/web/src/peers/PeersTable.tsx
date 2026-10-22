@@ -10,6 +10,7 @@ import {
 import type { Peer } from "../shared/types.js";
 import { FeePill } from "../fees/FeePill.js";
 import { VersionPill } from "../versions/VersionPill.js";
+import { useCohort } from "../versions/cohort-context.js";
 import { AsnChip } from "./AsnChip.js";
 import { CountryFlag } from "./CountryFlag.js";
 import { ServicesBadges } from "./ServicesBadges.js";
@@ -67,6 +68,7 @@ export function PeersTable({
   total,
 }: PeersTableProps) {
   const navigate = useNavigate();
+  const { cohortFor, ageFor } = useCohort();
   const maxPage = Math.max(0, Math.ceil(total / PAGE_SIZE) - 1);
 
   return (
@@ -133,7 +135,7 @@ export function PeersTable({
                 }}
               >
                 <span style={{ marginRight: 6 }}>
-                  <VersionPill cohort={r.cohort} label={r.cohort} />
+                  <VersionPill cohort={cohortFor(r.ua)} label={ageFor(r.ua)} />
                 </span>
                 <span style={{ fontSize: 11 }}>{r.ua}</span>
               </td>
@@ -159,7 +161,7 @@ export function PeersTable({
               <td>
                 <ServicesBadges services={r.services} />
               </td>
-              <td className="num">{r.latency}ms</td>
+              <td className="num">{r.latency.toFixed(2)}ms</td>
               <td className="num">{r.lastSeen}m ago</td>
             </tr>
           ))}

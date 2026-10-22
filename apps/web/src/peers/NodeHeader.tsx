@@ -3,6 +3,7 @@ import { Flex, Pill, Button } from "@relaymap/ui";
 import type { Peer } from "../shared/types.js";
 import { FeePill } from "../fees/FeePill.js";
 import { VersionPill } from "../versions/VersionPill.js";
+import { useCohort } from "../versions/cohort-context.js";
 import { AsnChip } from "./AsnChip.js";
 import { CountryFlag } from "./CountryFlag.js";
 import { CveBadge } from "./CveBadge.js";
@@ -16,6 +17,9 @@ export function NodeHeader({
 	onShowJson: () => void;
 	showJson: boolean;
 }) {
+	const { cohortFor, ageFor } = useCohort();
+	const cohort = cohortFor(node.ua);
+	const age = ageFor(node.ua);
 	return (
 		<div>
 			<div>
@@ -37,7 +41,7 @@ export function NodeHeader({
 					<Pill $variant={node.relay ? "fee-default" : "fee-aggressive"}>● reachable</Pill>
 					<CountryFlag cc={node.cc} name={node.countryName} />
 					<AsnChip asn={node.asn} name={node.asnName} />
-					<VersionPill cohort={node.cohort} label={node.cohort} />
+					<VersionPill cohort={cohort} label={age} />
 					<FeePill satVb={node.feeSatVb} satKb={node.feeSatKb} showKb />
 					{node.hasCve && <CveBadge cve="CVE-2023-50428" />}
 				</Flex>

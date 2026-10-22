@@ -1,8 +1,12 @@
 import { Card, CardHead, KvGrid, KvKey, KvVal } from "@relaymap/ui";
 import type { Peer } from "../shared/types.js";
 import { VersionPill } from "../versions/VersionPill.js";
+import { useCohort } from "../versions/cohort-context.js";
 
 export function IdentityCard({ node }: { node: Peer }) {
+	const { cohortFor, ageFor } = useCohort();
+	const cohort = cohortFor(node.ua);
+	const age = ageFor(node.ua);
 	return (
 		<Card>
 			<CardHead title="Identity" />
@@ -15,14 +19,10 @@ export function IdentityCard({ node }: { node: Peer }) {
 				<KvVal>{node.released}</KvVal>
 				<KvKey>Code age</KvKey>
 				<KvVal>
-					{Math.floor((Date.now() - new Date(node.released).getTime()) / 86400000)} days
+					{age}
 					<span style={{ marginLeft: 8 }}>
-						<VersionPill cohort={node.cohort} label={node.cohort} />
+						<VersionPill cohort={cohort} label={age} />
 					</span>
-				</KvVal>
-				<KvKey>Cohort</KvKey>
-				<KvVal style={{ textTransform: "capitalize" }}>
-					{node.cohort}
 				</KvVal>
 			</KvGrid>
 		</Card>
