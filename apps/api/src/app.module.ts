@@ -13,7 +13,16 @@ import { DashboardController } from "./bitcoin-network/dashboard.controller.js";
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    CacheModule.register({ isGlobal: true, ttl: 300_000 }),
+    // 5-minute cache in production; effectively disabled in development so
+    // dashboard changes (e.g. tweaking the cohort classifier) are immediately
+    // visible without waiting out the TTL. We keep the module registered in
+    // both modes because every controller injects CacheInterceptor — removing
+    // it would break DI. A 1ms TTL is the cleanest no-op that still satisfies
+    // those dependencies.
+    CacheModule.register({
+      isGlobal: true,
+      ttl: process.env.NODE_ENV === "production" ? 300_000 : 1,
+    }),
     ThrottlerModule.forRoot([
       { name: "short", ttl: 60_000, limit: 60 },
       { name: "long", ttl: 900_000, limit: 600 },
