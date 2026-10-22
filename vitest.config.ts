@@ -9,10 +9,11 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
 	test: {
 		projects: [
-			"packages/domain-shared/vitest.config.ts",
 			"packages/bitcoin-network/vitest.config.ts",
 			"packages/crawling/vitest.config.ts",
 			"packages/api-contracts/vitest.config.ts",
+			"packages/common/type-utils/vitest.config.ts",
+			"packages/common/bitcoin-version/vitest.config.ts",
 		],
 		coverage: {
 			provider: "v8",

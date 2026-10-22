@@ -8,6 +8,7 @@ COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 COPY apps/web/package.json apps/web/
 COPY packages/api-contracts/package.json packages/api-contracts/
 COPY packages/ui/package.json packages/ui/
+COPY packages/common/bitcoin-version/package.json packages/common/bitcoin-version/
 COPY packages/tsconfig/package.json packages/tsconfig/
 RUN pnpm install --frozen-lockfile
 

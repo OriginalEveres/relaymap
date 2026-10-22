@@ -14,6 +14,7 @@ COPY packages/crawling/package.json packages/crawling/
 COPY packages/db/package.json packages/db/
 COPY packages/ui/package.json packages/ui/
 COPY packages/common/type-utils/package.json packages/common/type-utils/
+COPY packages/common/bitcoin-version/package.json packages/common/bitcoin-version/
 COPY packages/tsconfig/package.json packages/tsconfig/
 RUN pnpm install --frozen-lockfile --prod --shamefully-hoist
 RUN cp -r node_modules /prod_modules
@@ -35,6 +36,8 @@ COPY --from=build /repo/packages/api-contracts/dist ./packages/api-contracts/dis
 COPY --from=build /repo/packages/api-contracts/package.json ./packages/api-contracts/
 COPY --from=build /repo/packages/bitcoin-network/dist ./packages/bitcoin-network/dist
 COPY --from=build /repo/packages/bitcoin-network/package.json ./packages/bitcoin-network/
+COPY --from=build /repo/packages/common/bitcoin-version/dist ./packages/common/bitcoin-version/dist
+COPY --from=build /repo/packages/common/bitcoin-version/package.json ./packages/common/bitcoin-version/
 COPY --from=build /repo/packages/db/dist ./packages/db/dist
 COPY --from=build /repo/packages/db/package.json ./packages/db/
 COPY --from=build /repo/packages/db/prisma ./packages/db/prisma
