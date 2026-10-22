@@ -24,6 +24,9 @@ export function DashboardPage({ data }: { data: NetworkData }) {
 
   const onNavigate = (path: string) => navigate(path, { viewTransition: true });
 
+  // TODO: implement export snapshot button
+  // <Button>Export snapshot</Button>
+
   return (
     <Page>
       <PageHead
@@ -31,7 +34,6 @@ export function DashboardPage({ data }: { data: NetworkData }) {
         subtitle="A snapshot of reachable Bitcoin nodes — fee policy, version adoption, and reachability."
         actions={
           <Flex $gap={8}>
-            <Button>Export snapshot</Button>
             <Button $variant="primary" onClick={() => onNavigate("/peers")}>
               Browse peers <Icon.arrow width={12} height={12} />
             </Button>
@@ -43,7 +45,13 @@ export function DashboardPage({ data }: { data: NetworkData }) {
         <Stat
           label="Reachable nodes"
           value={m.total.toLocaleString()}
-          footer={<><span style={{ color: "var(--ok)" }}>+{m.delta.plus}</span> / <span style={{ color: "var(--bad)" }}>-{m.delta.minus}</span> since last crawl</>}
+          footer={
+            <>
+              <span style={{ color: "var(--ok)" }}>+{m.delta.plus}</span> /{" "}
+              <span style={{ color: "var(--bad)" }}>-{m.delta.minus}</span>{" "}
+              since last crawl
+            </>
+          }
         />
         <Stat
           label="% at chain tip"
