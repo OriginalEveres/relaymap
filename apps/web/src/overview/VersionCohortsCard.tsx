@@ -23,7 +23,9 @@ export function VersionCohortsCard({ data, onNavigate }: Props) {
       <CardHead
         title="Version cohorts"
         subtitle={
-          <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
+          <div
+            style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}
+          >
             Code age, banded by release recency
           </div>
         }
@@ -33,7 +35,13 @@ export function VersionCohortsCard({ data, onNavigate }: Props) {
           <RowItem key={k}>
             <Flex $gap={10}>
               <VersionPill cohort={k as Cohort} label={v.label} />
-              <span style={{ color: "var(--text-muted)", fontSize: 11, fontFamily: "var(--font-mono)" }}>
+              <span
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: 11,
+                  fontFamily: "var(--font-mono)",
+                }}
+              >
                 {v.desc}
               </span>
             </Flex>
@@ -41,7 +49,13 @@ export function VersionCohortsCard({ data, onNavigate }: Props) {
               <BarTrack>
                 <BarFill $width={`${v.pct}%`} $color={`var(--ver-${k})`} />
               </BarTrack>
-              <RowValue style={{ minWidth: 46, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
+              <RowValue
+                style={{
+                  minWidth: 46,
+                  textAlign: "right",
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
                 {v.pct.toFixed(1)}%
               </RowValue>
             </Flex>
@@ -49,10 +63,21 @@ export function VersionCohortsCard({ data, onNavigate }: Props) {
         ))}
       </RowList>
       <div className="callout warn" style={{ marginTop: 18 }}>
-        <Icon.warn width={14} height={14} style={{ flexShrink: 0, marginTop: 1, color: "var(--bad)" }} />
+        <Icon.warn
+          width={14}
+          height={14}
+          style={{ flexShrink: 0, marginTop: 1, color: "var(--bad)" }}
+        />
         <div>
-          <strong>5.0%</strong> of reachable nodes run code older than 36 months — at least 4 known CVEs unpatched.{" "}
-          <a href="#/peers" onClick={(e) => { e.preventDefault(); onNavigate("/peers"); }}>
+          <strong>5.0%</strong> of reachable nodes run code older than 36 months
+          — at least 4 known CVEs unpatched.{" "}
+          <a
+            href="#/peers"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate("/peers");
+            }}
+          >
             Filter outdated →
           </a>
         </div>

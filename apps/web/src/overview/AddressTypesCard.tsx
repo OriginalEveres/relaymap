@@ -26,7 +26,12 @@ export function AddressTypesCard({ data, onNavigate }: Props) {
         onLinkClick={() => onNavigate("/peers")}
       />
       <PieWrap>
-        <Pie data={data.addrTypes.map((d) => ({ pct: d.pct, color: addrColor(d.type) }))} />
+        <Pie
+          data={data.addrTypes.map((d) => ({
+            pct: d.pct,
+            color: addrColor(d.type),
+          }))}
+        />
         <div style={{ flex: 1 }}>
           {data.addrTypes.map((d) => (
             <RowItem key={d.type} style={{ padding: "5px 0" }}>
@@ -34,7 +39,9 @@ export function AddressTypesCard({ data, onNavigate }: Props) {
                 <Swatch $color={addrColor(d.type)} />
                 <span>{d.type}</span>
               </div>
-              <RowValue style={{ fontVariantNumeric: "tabular-nums" }}>{d.pct.toFixed(1)}%</RowValue>
+              <RowValue style={{ fontVariantNumeric: "tabular-nums" }}>
+                {d.pct.toFixed(1)}%
+              </RowValue>
             </RowItem>
           ))}
         </div>

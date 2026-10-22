@@ -30,7 +30,13 @@ export function ServiceBitsCard({ data }: Props) {
           <RowItem key={k}>
             <div>
               <code style={{ fontSize: 12 }}>{k}</code>
-              <div style={{ color: "var(--text-muted)", fontSize: 11, fontFamily: "var(--font-mono)" }}>
+              <div
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: 11,
+                  fontFamily: "var(--font-mono)",
+                }}
+              >
                 {SERVICE_LABELS[k]}
               </div>
             </div>
@@ -38,7 +44,13 @@ export function ServiceBitsCard({ data }: Props) {
               <BarTrack style={{ width: 80 }}>
                 <BarFill $width={`${v.pct}%`} $color="var(--info)" />
               </BarTrack>
-              <RowValue style={{ minWidth: 50, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
+              <RowValue
+                style={{
+                  minWidth: 50,
+                  textAlign: "right",
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
                 {v.pct.toFixed(1)}%
               </RowValue>
             </Flex>

@@ -27,7 +27,8 @@ export class CrawlScheduler implements OnModuleInit, OnModuleDestroy {
   private running = false;
 
   constructor(
-    @Inject(RunScheduledCrawlUseCase) private readonly runCrawl: RunScheduledCrawlUseCase,
+    @Inject(RunScheduledCrawlUseCase)
+    private readonly runCrawl: RunScheduledCrawlUseCase,
     @Inject(SchedulerRegistry) private readonly scheduler: SchedulerRegistry,
     @Inject(CRAWLER_CONFIG) private readonly config: CrawlerConfig,
     @Inject(CRAWL_REPOSITORY) private readonly crawls: CrawlRepository,
