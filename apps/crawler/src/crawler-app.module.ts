@@ -9,7 +9,7 @@ import { CrawlScheduler } from "./scheduler/crawl.scheduler.js";
 
 @Module({
 	imports: [
-		ConfigModule.forRoot({ isGlobal: true }),
+		ConfigModule.forRoot({ isGlobal: true, envFilePath: [".env", "../../.env"] }),
 		ScheduleModule.forRoot(),
 		CrawlerConfigModule,
 		DbModule.forRoot(),

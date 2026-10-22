@@ -12,7 +12,7 @@ import { DashboardController } from "./bitcoin-network/dashboard.controller.js";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: [".env", "../../.env"] }),
     // 5-minute cache in production; effectively disabled in development so
     // dashboard changes (e.g. tweaking the cohort classifier) are immediately
     // visible without waiting out the TTL. We keep the module registered in
